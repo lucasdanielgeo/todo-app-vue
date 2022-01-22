@@ -1,6 +1,6 @@
 <template>
   <ul>
-    <li v-for="(item, index) in items" :key="index">
+    <li v-for="(item, index) in reverseItems" :key="index">
       <span :class="item.done ? 'done' : ''"> {{ item.name }}</span>
       <Button @click="checkTodo" name="Check" />
       <Button @click="editTodo" name="Edit" />
@@ -19,6 +19,11 @@ export default {
   methods: {
     editTodo() {},
     checkTodo() {},
+  },
+  computed: {
+    reverseItems() {
+      return this.items.slice(0).reverse();
+    },
   },
 };
 </script>
