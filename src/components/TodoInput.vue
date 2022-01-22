@@ -1,7 +1,11 @@
 <template>
   <form class="input" @submit.prevent="handleSubmit">
     <input type="text" v-model="description" />
-    <Button name="Save" :size="105" style="background-color: #00ab66" />
+    <Button
+      name="+ Add Todo"
+      :size="105"
+      style="background-color: #00ab66; color: white"
+    />
   </form>
 </template>
 

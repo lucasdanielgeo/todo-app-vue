@@ -26,8 +26,9 @@ button {
   border-radius: 5px;
   cursor: pointer;
   font-size: 12px;
-  color: white;
+  font-family: Archivo;
   background-color: #e0e0e0;
-  font-weight: 500;
+  color: rgb(75, 94, 95);
+  font-weight: 600;
 }
 </style>

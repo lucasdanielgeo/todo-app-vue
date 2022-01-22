@@ -55,9 +55,15 @@ export default {
   flex-direction: column;
   justify-content: center;
   width: 500px;
+  background-color: #ffffff;
+  padding: 25px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.075);
+  border-radius: 5px;
 }
 h1 {
   font-weight: 600;
+  margin-bottom: 25px;
+  text-align: center;
 }
 ul {
   list-style-type: none;
