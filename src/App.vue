@@ -5,18 +5,18 @@
 </template>
 
 <script>
-import TodoApp from "./components/TodoApp.vue";
+import TodoApp from './components/TodoApp.vue'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     TodoApp,
   },
-};
+}
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@100;300;400;500;600;700&family=Open+Sans:wght@300;400;500;600&family=Roboto:wght@500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@100;300;400;500;600;700&family=Open+Sans:wght@300;400;500;600&family=Roboto:wght@500;600;700&display=swap');
 
 *,
 *:after,
@@ -46,7 +46,7 @@ body {
   background-color: #f2f1f1;
 
   font-size: 62.5%;
-  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
   color: #2c3e50;
 }
 
@@ -65,7 +65,7 @@ select {
   border-radius: 5px;
   padding-left: 15px;
 
-  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
   color: #2c3e50;
 }
 input:focus,
