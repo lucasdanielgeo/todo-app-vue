@@ -10,26 +10,19 @@
       <Button
         @click-event="$emit('complete-todo', item)"
         :disabled="item.loading"
+        class="button-icon button-icon__check"
       >
-        <span v-if="item.loading">Loading</span>
-        <span v-else>Check</span>
+        <div class="button-icon button-icon__check">
+          <refresh-icon v-if="item.loading" class="button-icon__spin" />
+          <check-icon v-else />
+        </div>
       </Button>
-      <Button @click-event="$emit('delete-todo', item)">
-        <div class="icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-            />
-          </svg>
+      <Button
+        @click-event="$emit('delete-todo', item)"
+        class="button-icon button-icon__delete"
+      >
+        <div class="button-icon button-icon__delete">
+          <trash-icon />
         </div>
       </Button>
     </li>
@@ -38,9 +31,13 @@
 
 <script>
 import Button from './Button.vue'
+import { CheckIcon, TrashIcon, RefreshIcon } from '@heroicons/vue/outline'
 export default {
   components: {
     Button,
+    TrashIcon,
+    CheckIcon,
+    RefreshIcon,
   },
   name: 'TodoItem',
   props: ['items'],
@@ -93,11 +90,32 @@ input {
   align-items: center;
 }
 
-.icon {
+.button-icon {
   width: 20px;
 }
 
-.icon svg {
+.button-icon svg {
   width: 100%;
+}
+
+.button-icon__check:hover {
+  background-color: rgb(0, 171, 102);
+  color: white;
+}
+.button-icon__spin {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.button-icon__delete:hover {
+  background-color: rgb(221, 30, 5);
+  color: white;
 }
 </style>
