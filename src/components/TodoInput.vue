@@ -1,8 +1,10 @@
 <template>
-  <form class="input" @submit.prevent="handleSubmit">
-    <label for="title">Title</label> <input type="text" v-model="title" />
+  <h1>Add new Todo</h1>
+  <form class="input" @submit.prevent="handleSave">
+    <label for="title">Title {{ isModalOpen }}</label>
+    <input type="text" v-model="title" />
     <label for="description">Description</label>
-    <textarea rows="4" v-model="description" />
+    <textarea v-model="description" />
     <Button name="+ Add Todo" :size="105" :style="styleButton" />
   </form>
 </template>
@@ -14,7 +16,7 @@ export default {
     Button,
   },
   name: 'TodoInput',
-  emits: ['save'],
+  emits: ['ravalidate'],
   data() {
     return {
       styleButton: {
@@ -26,13 +28,33 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
-      this.title &&
-        this.description &&
-        this.$emit('save', this.title, this.description)
+    /**
+     * It send a POST with title and description and emits an
+     * event to revalidate todo list in parent component.
+     */
+    async handleSave() {
+      const data = {
+        title: this.title,
+        description: this.description,
+        completed: false,
+      }
       this.title = ''
       this.description = ''
+
+      await fetch('https://vue-todo-tasks.herokuapp.com/api/tasks', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      this.$emit('revalidate')
     },
+
+    /**
+     * Changes state of isModalOpen to close modal
+     */
+    closeModal() {},
   },
 }
 </script>
@@ -43,9 +65,6 @@ form {
   flex-direction: column;
   width: 100%;
   margin-bottom: 0.5rem;
-}
-
-form.input {
   gap: 1rem;
   width: 100%;
 }
