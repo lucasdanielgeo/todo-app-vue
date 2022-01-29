@@ -1,23 +1,41 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }} 💚</h1>
-    <TodoInput @save="handleSave" />
-    <TodoItems
+  <div class="todo-app" :class="{ 'todo-app__blured': isModalOpen }">
+    <h1>Todo App</h1>
+    <button class="button__add-todo" @click="toggleModal">+ Add todo</button>
+    <todo-items
       @delete-todo="deleteTodo"
       @complete-todo="completeTodo"
+      @edit-todo="editTodo"
       :items="items"
     />
   </div>
+  <todo-modal
+    :is-modal-open="isModalOpen"
+    v-if="isModalOpen"
+    :class="{ modalbackgorund: isModalOpen }"
+  >
+    <todo-input v-if="!editMode" @revalidate="revalidate" />
+    <todo-edit
+      v-else
+      :items="items"
+      :edit-todo="editMode"
+      @revalidate="revalidate"
+    />
+  </todo-modal>
 </template>
 
 <script>
 import TodoInput from './TodoInput.vue'
 import TodoItems from './TodoItems.vue'
+import TodoModal from './TodoModal.vue'
+import TodoEdit from './TodoEdit.vue'
 
 export default {
   components: {
     TodoInput,
     TodoItems,
+    TodoModal,
+    TodoEdit,
   },
   name: 'TodoApp',
 
@@ -27,22 +45,11 @@ export default {
   data() {
     return {
       items: [],
+      isModalOpen: false,
+      editMode: false,
     }
   },
   methods: {
-    async handleSave(title, description) {
-      const data = { title, description, completed: false }
-      this.items.push(data)
-      await fetch('https://vue-todo-tasks.herokuapp.com/api/tasks', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      await this.revalidate()
-    },
-
     async completeTodo({ id, title, description, completed }) {
       const data = { title, description, completed: !completed }
       const itemToUpdate = this.items.find((item) => item.id === id)
@@ -79,6 +86,16 @@ export default {
         ...item,
         loading: false,
       }))
+      this.isModalOpen = false
+      this.editMode = false
+    },
+    toggleModal() {
+      this.isModalOpen = !this.isModalOpen
+    },
+    editTodo(item) {
+      this.toggleModal()
+      this.editMode = true
+      console.log(item.id)
     },
   },
   async created() {
@@ -94,12 +111,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 @media (max-width: 600px) {
-  .hello {
+  .todo-app {
     max-width: 90vw;
   }
 }
 
-.hello {
+.todo-app {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -109,6 +126,10 @@ export default {
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.075);
   border-radius: 5px;
 }
+.todo-app__blured {
+  filter: blur(2.5px);
+}
+
 h1 {
   font-weight: 600;
   margin-bottom: 25px;
@@ -124,5 +145,9 @@ li {
 }
 a {
   color: #42b983;
+}
+
+.modal-background {
+  display: flex;
 }
 </style>
