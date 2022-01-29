@@ -45,6 +45,7 @@ button:disabled {
   opacity: 0.5;
   background-color: darkcyan;
 }
+
 button:hover {
   transform: scale(1.025);
 }

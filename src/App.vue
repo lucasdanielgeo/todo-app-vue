@@ -52,9 +52,8 @@ body {
 
 #app {
   font-size: 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  place-items: center;
 }
 
 input,
