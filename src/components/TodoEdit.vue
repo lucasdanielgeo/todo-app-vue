@@ -1,7 +1,14 @@
 <template>
-  <h1>Add new Todo</h1>
+  <header>
+    <h1>Update Todo</h1>
+    <Button @click="$emit('closeModal')">
+      <div class="button-icon">
+        <arrow-left-icon />
+      </div>
+    </Button>
+  </header>
   <form class="input" @submit.prevent="handleUpdate">
-    <label for="title">Title {{ isModalOpen }}</label>
+    <label for="title">Title</label>
     <input type="text" v-model="title" />
     <label for="description">Description</label>
     <textarea v-model="description" />
@@ -11,24 +18,40 @@
 
 <script>
 import Button from './Button.vue'
+import { ArrowLeftIcon } from '@heroicons/vue/outline'
+
 export default {
   components: {
     Button,
+    ArrowLeftIcon,
   },
-  props: ['edit-mode', 'items'],
+  props: ['edit-mode', 'items', 'edit-todo-id'],
   name: 'TodoInput',
-  emits: ['ravalidate'],
+  emits: ['ravalidate', 'close-modal'],
   data() {
     return {
+      title: '',
+      description: '',
+      editTodo: null,
       styleButton: {
         backgroundColor: '#ff6600',
         color: 'white',
       },
-      title: '',
-      description: '',
     }
   },
   methods: {
+    /**
+     * Retrieve todo item data.
+     */
+    async retrieveTodoInfo() {
+      const response = await fetch(
+        `https://vue-todo-tasks.herokuapp.com/api/tasks/${editTodoID}`,
+      )
+      const data = await response.json()
+      this.editTodo = data
+      this.isModalOpen = false
+    },
+
     /**
      * It send a POST with title and description and emits an
      * event to revalidate todo list in parent component.
@@ -43,7 +66,7 @@ export default {
       this.description = ''
 
       await fetch('https://vue-todo-tasks.herokuapp.com/api/tasks', {
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json',
@@ -56,6 +79,11 @@ export default {
 </script>
 
 <style scoped>
+header {
+  display: flex;
+  justify-content: space-between;
+}
+
 form {
   display: flex;
   flex-direction: column;
