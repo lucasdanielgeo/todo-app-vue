@@ -13,13 +13,16 @@
     :is-modal-open="isModalOpen"
     v-if="isModalOpen"
     :class="{ modalbackgorund: isModalOpen }"
+    :edit-todo-id="editTodoId"
   >
     <todo-input v-if="!editMode" @revalidate="revalidate" />
     <todo-edit
       v-else
       :items="items"
       :edit-todo="editMode"
+      :edit-todo-id="editTodoID"
       @revalidate="revalidate"
+      @close-modal="toggleModal"
     />
   </todo-modal>
 </template>
@@ -47,6 +50,7 @@ export default {
       items: [],
       isModalOpen: false,
       editMode: false,
+      editTodoID: '',
     }
   },
   methods: {
@@ -96,6 +100,7 @@ export default {
       this.toggleModal()
       this.editMode = true
       console.log(item.id)
+      this.editTodoID = item.id
     },
   },
   async created() {
