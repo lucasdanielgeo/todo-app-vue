@@ -1,7 +1,7 @@
 <template>
   <h1>Add new Todo</h1>
   <form class="input" @submit.prevent="handleSave">
-    <label for="title">Title {{ isModalOpen }}</label>
+    <label for="title">Title</label>
     <input type="text" v-model="title" />
     <label for="description">Description</label>
     <textarea v-model="description" />
